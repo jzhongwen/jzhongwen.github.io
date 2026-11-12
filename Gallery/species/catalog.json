@@ -2,7 +2,7 @@
   "version": 1,
   "species": 18,
   "pending": 1,
-  "photos": 22,
+  "photos": 24,
   "entries": [
     {
       "id": "arachnothera-magna",
@@ -78,7 +78,7 @@
       "id": "protobothrops-mangshanensis",
       "name": "Protobothrops mangshanensis",
       "status": "identified",
-      "photographs": 1,
+      "photographs": 3,
       "page": "protobothrops-mangshanensis/index.html"
     },
     {
