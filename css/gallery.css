@@ -1,0 +1,63 @@
+.photo-gallery { --ink:#183b31; --muted:#68786f; --line:#dce5de; box-sizing:border-box; padding:42px; background:rgba(250,252,248,.96); border-radius:20px; box-shadow:0 18px 40px rgba(0,0,0,.08); color:var(--ink); }
+.photo-gallery *, .photo-lightbox * { box-sizing:border-box; }
+.photo-gallery [hidden] { display:none !important; }
+.photo-gallery a { color:inherit; text-decoration:none; }
+.photo-gallery a:focus-visible, .photo-gallery select:focus-visible, .photo-lightbox button:focus-visible { outline:3px solid #6aaf8d; outline-offset:5px; }
+.photo-gallery__header { margin-bottom:30px; }
+.photo-gallery__eyebrow { margin:0 0 10px; font-size:12px; font-weight:700; letter-spacing:.18em; color:#56705f; }
+.photo-gallery h1 { margin:0 0 16px; font-size:clamp(32px,5vw,52px); font-weight:600; line-height:1.15; letter-spacing:-.035em; }
+.photo-gallery__intro { max-width:620px; margin:0; color:var(--muted); line-height:1.8; font-size:15px; }
+.album-filters { display:flex; flex-wrap:wrap; align-items:center; gap:12px; padding:20px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); font-size:13px; }
+.album-filters label { color:var(--muted); }
+.album-filters select { min-width:130px; padding:9px 30px 9px 12px; border:1px solid var(--line); border-radius:7px; background:#fff; color:var(--ink); font:inherit; }
+.album-filters__count { margin-left:auto; color:var(--muted); }
+.photo-gallery .album-year__heading { margin:32px 0 18px; font-size:22px; font-weight:500; }
+.album-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:26px; }
+.album-card { display:block; overflow:hidden; border:1px solid var(--line); border-radius:14px; background:#fff; transition:box-shadow .2s,transform .2s; }
+.album-card:hover { transform:translateY(-3px); box-shadow:0 12px 28px rgba(28,57,41,.1); }
+.album-card__image { position:relative; aspect-ratio:3/2; overflow:hidden; background:#e7eee6; }
+.album-card__image img { display:block; width:100%; height:100%; object-fit:cover; }
+.album-card__count { position:absolute; bottom:16px; left:16px; padding:5px 11px; border-radius:20px; background:rgba(18,40,29,.8); color:white; font-size:12px; }
+.album-card__body { padding:23px 25px; }
+.album-card__place { margin:0 0 6px; font-size:12px; text-transform:uppercase; letter-spacing:.13em; color:var(--muted); }
+.photo-gallery .album-card h3 { margin:0; font-size:26px; font-weight:500; }
+.album-card__date { margin:6px 0 20px; font-size:14px; color:var(--muted); }
+.album-card__open { display:block; border-top:1px solid var(--line); padding-top:15px; font-size:13px; font-weight:600; }
+.album-back { display:inline-block; margin-bottom:25px; font-size:13px; }
+.album-back:hover { text-decoration:underline; }
+.album-meta { display:flex; flex-wrap:wrap; gap:8px 22px; margin-top:20px; color:var(--muted); font-size:13px; }
+.album-days { display:flex; flex-wrap:wrap; gap:9px; padding:18px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.album-days a { padding:5px 14px; border-radius:20px; background:#e8eee7; font-size:13px; }
+.album-days a:hover { background:#d9e7dc; }
+.photo-day { margin-top:36px; }
+.photo-day__heading { display:flex; flex-wrap:wrap; align-items:baseline; gap:12px; margin:0 0 17px; }
+.photo-gallery .photo-day__heading h2 { margin:0; font-size:20px; font-weight:500; scroll-margin-top:90px; }
+.photo-day__heading span { font-size:12px; color:var(--muted); }
+.photo-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; }
+.photo-card { margin:0; min-width:0; overflow:hidden; background:#fff; border:1px solid var(--line); border-radius:11px; }
+.photo-card__link { display:block; position:relative; aspect-ratio:3/2; background:#141c18; }
+.photo-card__link img { display:block; width:100%; height:100%; object-fit:contain; }
+.photo-card__zoom { position:absolute; bottom:9px; right:10px; display:grid; place-items:center; width:27px; height:27px; border-radius:50%; background:rgba(0,0,0,.4); color:white; font-size:17px; }
+.photo-card figcaption { padding:15px 16px 18px; }
+.photo-card__meta { display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; font-size:10px; letter-spacing:.04em; color:var(--muted); }
+.photo-card__meta span { font-weight:700; }
+.photo-card__name { margin:12px 0 6px; font-size:14px; font-weight:600; line-height:1.6; }
+.photo-card__scientific { margin:0; font-size:12px; line-height:1.6; min-height:20px; }
+.photo-card .is-placeholder { font-weight:400; color:#758276; }
+.photo-card__name.is-placeholder { border-bottom:1px dashed #d5dfd5; padding-bottom:7px; }
+.photo-gallery__credit { margin:40px 0 0; padding-top:20px; border-top:1px solid var(--line); font-size:12px; color:var(--muted); }
+.photo-lightbox { max-width:none; max-height:none; width:100vw; height:100dvh; padding:18px 24px; border:0; background:#101713; color:#f5f7f5; }
+.photo-lightbox:not([open]) { display:none; }
+.photo-lightbox[open] { display:flex; flex-direction:column; }
+.photo-lightbox::backdrop { background:rgba(0,0,0,.92); }
+.photo-lightbox__toolbar { display:flex; align-items:center; justify-content:space-between; min-height:44px; gap:20px; }
+.photo-lightbox button { border:1px solid #506055; border-radius:6px; background:#25352c; color:white; cursor:pointer; font:inherit; }
+.photo-lightbox__close { padding:7px 14px; }
+.photo-lightbox__counter { font-size:13px; }
+.photo-lightbox__stage { display:flex; flex:1; min-height:0; align-items:center; justify-content:space-between; gap:14px; padding:14px 0; }
+.photo-lightbox__image { display:block; max-width:calc(100% - 112px); max-height:100%; object-fit:contain; margin:auto; }
+.photo-lightbox__previous, .photo-lightbox__next { flex:0 0 42px; height:52px; font-size:30px !important; }
+.photo-lightbox__caption { margin:10px 0; text-align:center; font-size:14px; line-height:1.5; }
+@media (max-width:1000px) { .photo-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:620px) { .photo-gallery { padding:25px 18px; border-radius:12px; } .album-grid,.photo-grid { grid-template-columns:1fr; } .album-filters { gap:9px; } .album-filters select { min-width:95px; } .album-filters__count { width:100%; margin-left:0; } .photo-lightbox { padding:10px; } .photo-lightbox__stage { gap:5px; } .photo-lightbox__previous,.photo-lightbox__next { flex-basis:30px; } .photo-lightbox__image { max-width:calc(100% - 70px); } }
+@media (prefers-reduced-motion:reduce) { .album-card { transition:none; } }
