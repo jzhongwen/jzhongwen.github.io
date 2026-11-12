@@ -5,6 +5,55 @@
       (!place || data.place === place) && (!year || data.year === year);
   }
   if (typeof module === 'object' && module.exports) { module.exports = matchesPhoto; return; }
+  document.querySelectorAll('[data-species-browser]').forEach(function (browser) {
+    browser.querySelectorAll('[data-photo-filters], [data-photo-controls]').forEach(function (el) { el.hidden = false; });
+    var cards = Array.from(browser.querySelectorAll('[data-species-card]')).map(function (el) { return { el: el, records: JSON.parse(el.dataset.records) }; });
+    var place = browser.querySelector('[data-filter-place]'), year = browser.querySelector('[data-filter-year]');
+    var search = browser.querySelector('[data-species-search]'), buttons = Array.from(browser.querySelectorAll('[data-group]'));
+    var params = new URLSearchParams(window.location.search), group = params.get('group') || '';
+    if (!buttons.some(function (b) { return b.dataset.group === group; })) group = '';
+    [ ['place', place], ['year', year] ].forEach(function (item) { if (Array.from(item[1].options).some(function (o) { return o.value === params.get(item[0]); })) item[1].value = params.get(item[0]); });
+    var emptyToggle = browser.querySelector('[data-show-empty-orders]');
+    var active = buttons.find(function (b) { return b.dataset.group === group; });
+    if (active) {
+      emptyToggle.checked = !!active.closest('[data-empty-order]');
+      var parent = active.parentElement;
+      while (parent && parent !== browser) { if (parent.tagName === 'DETAILS') parent.open = true; parent = parent.parentElement; }
+    }
+    browser.classList.toggle('show-empty-orders', emptyToggle.checked);
+    emptyToggle.addEventListener('change', function () { browser.classList.toggle('show-empty-orders', emptyToggle.checked); });
+    function update() {
+      var confirmed = 0, pending = 0, photos = 0, query = search.value.trim().toLowerCase();
+      cards.forEach(function (card) {
+        var matches = card.records.filter(function (r) { return matchesPhoto(r, group, place.value, year.value); });
+        card.el.hidden = !matches.length || !card.el.dataset.name.toLowerCase().includes(query);
+        if (card.el.hidden) return;
+        if (card.el.dataset.status === 'identified') confirmed++; else pending++;
+        photos += matches.length;
+        card.el.querySelector('[data-species-photo-count]').textContent = matches.length + (matches.length === 1 ? ' photograph' : ' photographs');
+        card.el.querySelector('[data-species-places]').textContent = Array.from(new Set(matches.map(function (r) { return r.place; }))).join(' · ');
+        card.el.querySelector('img').src = matches[0].thumbnail;
+        var target = new URL(card.el.href);
+        ['place','year'].forEach(function (key) { var value = key === 'place' ? place.value : year.value; if (value) target.searchParams.set(key, value); else target.searchParams.delete(key); });
+        card.el.href = target.href;
+      });
+      var summary = confirmed + (confirmed === 1 ? ' species' : ' species') + ' · ' + photos + ' photographs' + (pending ? ' · ' + pending + ' pending identification' : '');
+      browser.querySelector('[data-species-results]').textContent = summary;
+      browser.querySelector('[data-species-summary]').textContent = confirmed + ' species · 物种 / ' + photos + ' photographs · 照片' + (pending ? ' / ' + pending + ' pending · 待确认记录' : '');
+      browser.querySelector('[data-photo-empty]').hidden = confirmed + pending > 0;
+      buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.group === group)); });
+      browser.querySelectorAll('[data-group-count]').forEach(function (el) {
+        el.textContent = cards.filter(function (card) { return card.el.dataset.status === 'identified' && card.el.dataset.name.toLowerCase().includes(query) && card.records.some(function (r) { return matchesPhoto(r, el.dataset.groupCount, place.value, year.value); }); }).length;
+      });
+      var url = new URL(window.location.href);
+      [['group',group],['place',place.value],['year',year.value]].forEach(function (pair) { if (pair[1]) url.searchParams.set(pair[0],pair[1]); else url.searchParams.delete(pair[0]); });
+      window.history.replaceState(null, '', url);
+    }
+    buttons.forEach(function (b) { b.addEventListener('click', function (event) { event.preventDefault(); group = b.dataset.group; var details = b.closest('details'); if (details) details.open = true; update(); }); });
+    place.addEventListener('change',update); year.addEventListener('change',update); search.addEventListener('input',update);
+    browser.querySelector('[data-reset-filters]').addEventListener('click',function () { group=''; place.value=''; year.value=''; search.value=''; update(); });
+    update();
+  });
   var filters = document.querySelector('[data-album-filters]');
   if (filters) {
     filters.hidden = false;
@@ -31,6 +80,8 @@
     var groupSelect = browser.querySelector('[data-filter-group]');
     var placeSelect = browser.querySelector('[data-filter-place]');
     var yearSelect = browser.querySelector('[data-filter-year]');
+    var params = new URLSearchParams(window.location.search);
+    [['place',placeSelect],['year',yearSelect]].forEach(function (item) { if (item[1] && Array.from(item[1].options).some(function (o) { return o.value === params.get(item[0]); })) item[1].value = params.get(item[0]); });
     var groupButtons = Array.from(browser.querySelectorAll('[data-group]'));
     var requested = new URLSearchParams(window.location.search).get('group') || '';
     var known = groupSelect ? Array.from(groupSelect.options).some(function (o) { return o.value === requested; }) : groupButtons.some(function (b) { return b.dataset.group === requested; });
@@ -85,7 +136,7 @@
     var reset = browser.querySelector('[data-reset-filters]');
     if (reset) reset.addEventListener('click', function () {
       selectedGroup = ''; if (groupSelect) groupSelect.value = ''; if (placeSelect) placeSelect.value = ''; if (yearSelect) yearSelect.value = '';
-      var url = new URL(window.location.href); url.searchParams.delete('group'); window.history.replaceState(null, '', url); updatePhotos();
+      var url = new URL(window.location.href); ['group','place','year'].forEach(function (key) { url.searchParams.delete(key); }); window.history.replaceState(null, '', url); updatePhotos();
     });
     updatePhotos();
   });
