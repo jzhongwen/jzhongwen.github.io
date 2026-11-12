@@ -36,6 +36,20 @@
     var known = groupSelect ? Array.from(groupSelect.options).some(function (o) { return o.value === requested; }) : groupButtons.some(function (b) { return b.dataset.group === requested; });
     var selectedGroup = known ? requested : '';
     if (groupSelect) groupSelect.value = selectedGroup;
+    var emptyToggle = browser.querySelector('[data-show-empty-orders]');
+    var selectedButton = groupButtons.find(function (button) { return button.dataset.group === selectedGroup; });
+    if (emptyToggle) {
+      emptyToggle.checked = !!(selectedButton && selectedButton.closest('[data-empty-order]'));
+      browser.classList.toggle('show-empty-orders', emptyToggle.checked);
+      emptyToggle.addEventListener('change', function () { browser.classList.toggle('show-empty-orders', emptyToggle.checked); });
+    }
+    if (selectedButton) {
+      var ancestor = selectedButton.parentElement;
+      while (ancestor && ancestor !== browser) {
+        if (ancestor.tagName === 'DETAILS') ancestor.open = true;
+        ancestor = ancestor.parentElement;
+      }
+    }
     function updatePhotos() {
       var group = groupSelect ? groupSelect.value : selectedGroup;
       var place = placeSelect ? placeSelect.value : '';
