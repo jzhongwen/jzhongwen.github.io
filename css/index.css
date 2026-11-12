@@ -1979,6 +1979,17 @@ a.fancybox:focus {
     height: 506.25px;
   }
 }
+#content-inner.layout {
+  width: calc(100% - 80px);
+  max-width: 1440px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media screen and (max-width: 620px) {
+  #content-inner.layout {
+    width: calc(100% - 24px);
+  }
+}
 .katex-wrap {
   overflow: auto;
 }
