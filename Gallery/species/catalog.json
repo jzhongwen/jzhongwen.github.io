@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "species": 17,
+  "species": 18,
   "pending": 1,
-  "photos": 21,
+  "photos": 22,
   "entries": [
     {
       "id": "arachnothera-magna",
@@ -73,6 +73,13 @@
       "status": "identified",
       "photographs": 1,
       "page": "mycteria-leucocephala/index.html"
+    },
+    {
+      "id": "protobothrops-mangshanensis",
+      "name": "Protobothrops mangshanensis",
+      "status": "identified",
+      "photographs": 1,
+      "page": "protobothrops-mangshanensis/index.html"
     },
     {
       "id": "rhabdophis-chrysargos",
