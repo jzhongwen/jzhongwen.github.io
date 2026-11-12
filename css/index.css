@@ -1985,6 +1985,61 @@ a.fancybox:focus {
 .katex-wrap::-webkit-scrollbar {
   display: none;
 }
+.article-container .research-figure {
+  margin: 2rem auto;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #dfe5e8;
+  border-radius: 0.6rem;
+  background: #fff;
+}
+.article-container .research-figure--illustration {
+  max-width: 580px;
+}
+.article-container .research-figure--traits {
+  max-width: 780px;
+}
+.article-container .research-figure .research-figure__image-link {
+  display: block;
+  padding: 0;
+  background: #fff;
+  cursor: zoom-in;
+}
+.article-container .research-figure .research-figure__image-link:focus-visible {
+  outline: 3px solid #49b1f5;
+  outline-offset: -3px;
+}
+.article-container .research-figure img {
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border: 0;
+  background: #fff;
+}
+.article-container .research-figure figcaption {
+  padding: 0.85rem 1rem;
+  border-top: 1px solid #e8edef;
+  background: #f7f9fa;
+  color: #49545c;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.research-lightbox .fancybox-image {
+  background: #fff;
+}
+@media screen and (max-width: 768px) {
+  .article-container .research-figure {
+    margin: 1.25rem auto;
+  }
+  .article-container .research-figure figcaption {
+    padding: 0.7rem 0.8rem;
+  }
+}
 #sidebar {
   position: fixed;
   top: 0;
